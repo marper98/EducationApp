@@ -26,14 +26,14 @@ def begin():
       codeText = code.text
       first = False
 
-    elif mytable.find('td', {"width" : "113"}) != code and \
-         mytable.find('td', {"width" : "113"}) is not None:
-      code = mytable.find('td', {"width" : "113"})
+    elif mytable.find('td', {"width" : "113", "rowspan" : 2}) \
+         is not None:
 
-      if hasTime:
+      if hasTime and codeText != "":
         f.write(codeText.encode('utf-8') + "\n")
         f.write(timeText.encode('utf-8') + "\n")
 
+      code = mytable.find('td', {"width" : "113", "rowspan" : "2"})
       timeText = ""
       hasTime = True
       codeText = code.text
@@ -44,6 +44,6 @@ def begin():
       for t in time:
         if 'A' in t.text:
           hasTime = False
-        timeText = timeText + " " + t.text
+        timeText = timeText + " " + t.text + " "
 
 begin()
