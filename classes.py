@@ -13,24 +13,37 @@ def begin():
   code = None
   time = None
   first = True
-  finalText = ""
+  codeText = ""
+  timeText = ""
+  hasTime = True
+
+  f = open("catalog.txt", "a+")
+
   for mytable in table:
     if mytable.find('td', {"width" : "113"}) != code and \
        mytable.find('td', {"width" : "113"}) is not None and first:
       code = mytable.find('td', {"width" : "113"})
-      finalText = code.text
+      codeText = code.text
       first = False
 
     elif mytable.find('td', {"width" : "113"}) != code and \
          mytable.find('td', {"width" : "113"}) is not None:
-      print finalText
-      print
       code = mytable.find('td', {"width" : "113"})
-      finalText = code.text
+
+      if hasTime:
+        f.write(codeText.encode('utf-8') + "\n")
+        f.write(timeText.encode('utf-8') + "\n")
+
+      timeText = ""
+      hasTime = True
+      codeText = code.text
 
     if mytable.find('td', {"width" : "135"}) is not None:
       time = mytable.find_all('td', {"width" : "135"})
+
       for t in time:
-        finalText = finalText + " " + t.text
+        if 'A' in t.text:
+          hasTime = False
+        timeText = timeText + " " + t.text
 
 begin()
