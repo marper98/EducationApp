@@ -17,7 +17,12 @@ public class Class{
     endtime = end;
     Days = new boolean[5];
   }
-  public void setDay(
+  public void setDay(int day){
+    Days[day] = true;
+  }
+  public boolean[] getDays(){
+    return Days;
+  }
   public int getBegin(){
     return begintime;
   }
