@@ -2,7 +2,7 @@ public class Class{
   private String classCode;
   private int begintime;
   private int endtime;
-  private boolean twodays;
+  private boolean[] Days;
   /**
    * Ctor for the class Class
    *
@@ -11,13 +11,13 @@ public class Class{
    * @param end   Represents the ending time of the class.
    * @param days  Represents whether the class is three days or two
    */
-  public Class(String code, int begin, int end, boolean days){
+  public Class(String code, int begin, int end){
     classCode = code;
     begintime = begin;
     endtime = end;
-    twodays = days;
+    Days = new boolean[5];
   }
-
+  public void setDay(
   public int getBegin(){
     return begintime;
   }
