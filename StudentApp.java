@@ -96,11 +96,15 @@ public class StudentApp extends JFrame implements ActionListener{
     }
     if(e.getSource() == planButton){
         planButton.setEnabled(false);
-        String[] classChoices = new String[5];
-        classChoices[0] = classPlanOne.getText().trim().replaceAll("\\s+","");
-        classChoices[1] = classPlanTwo.getText().trim().replaceAll("\\s+","");
-        classChoices[2] = classPlanThree.getText().trim().replaceAll("\\s+","");
-        classChoices[3] = classPlanFour.getText().trim().replaceAll("\\s+","");   
+        String[] classChoices = new String[4];
+        classChoices[0] = classPlanOne.getText().trim().toLowerCase()
+                          .replaceAll("\\s+","");
+        classChoices[1] = classPlanTwo.getText().trim().toLowerCase()
+                          .replaceAll("\\s+","");
+        classChoices[2] = classPlanThree.getText().trim().toLowerCase()
+                          .replaceAll("\\s+","");
+        classChoices[3] = classPlanFour.getText().trim().toLowerCase()
+                          .replaceAll("\\s+","");   
         boolean foundClasses = true;
         for(int i=0; i<classChoices.length; i++){
 
@@ -139,13 +143,18 @@ public class StudentApp extends JFrame implements ActionListener{
     if(e.getSource() == newSchedule){
       flipTextEdit(true);
       planButton.setEnabled(true);
-      beginSpin.setEnabled(true);
-      endSpin.setEnabled(true);
+      newSchedule.setEnabled(false);
+      newClassTime.setEnabled(false);
       mySchedule.resetSchedule();
     }
     if(e.getSource() == newClassTime){
       flipTextEdit(false);
       setTimeButton.setEnabled(true);
+      planButton.setEnabled(false);
+      newClassTime.setEnabled(false);
+      newSchedule.setEnabled(false);
+      beginSpin.setEnabled(true);
+      endSpin.setEnabled(true);
     }
   }
   /**
@@ -165,11 +174,11 @@ public class StudentApp extends JFrame implements ActionListener{
       VACHelper.setText("Here is a suggested plan for your schedule with your"+
                         " desired courses.");
       for(int i=0; i<arr.size(); i++){
-        VACHelper.append("\n" +arr.get(i).toString() + arr.size()); 
+        VACHelper.append("\n" +arr.get(i).toString()); 
       }
     }else{
       VACHelper.setText("We were unable to finalize a Schedule with your" +
-                        " Selected courses, please enter a new time frame,"+
+                        " Selected courses, \nplease enter a new time frame,"+
                         " and/or a new set of courses."); 
     }
           
