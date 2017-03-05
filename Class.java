@@ -1,8 +1,11 @@
 public class Class{
   private String classCode;
-  private int begintime;
-  private int endtime;
-  private boolean[] Days;
+  private double beginTime;
+  private double endTime;
+  private boolean[] days;
+  private String[] daysOfWeek = {"Monday", "Tuesday", "Wednesday",
+                                 "Thursday", "Friday"};
+
   /**
    * Ctor for the class Class
    *
@@ -11,28 +14,51 @@ public class Class{
    * @param end   Represents the ending time of the class.
    * @param days  Represents whether the class is three days or two
    */
-  public Class(String code, int begin, int end){
+  public Class(String code, double begin, double end){
     classCode = code;
-    begintime = begin;
-    endtime = end;
-    Days = new boolean[5];
+    beginTime = begin;
+    endTime = end;
+    days = new boolean[5];
   }
+
   public void setDay(int day){
-    Days[day] = true;
+    days[day] = true;
   }
+
   public boolean[] getDays(){
-    return Days;
+    return days;
   }
-  public int getBegin(){
-    return begintime;
+
+  public double getBegin(){
+    return beginTime;
   }
-  public int getEnd(){
-    return endtime;
+
+  public double getEnd(){
+    return endTime;
   }
+
   public String getCode(){
     return classCode;
   }
-  public boolean getDays(){
-    return twodays;
+
+  public boolean[] getDays(){
+    return days;
+  }
+
+  public String toTime(double time) {
+      int hour = (int) time;
+      int minute = (int) ((time - hour) * 60) 
+      return "" + hour + ":" + minute;
+  }
+
+  @Override
+  public String toString() {
+    String classes = classCode;
+    for (int i = 0; i < days.length; i++) {
+      if (days[i]) {
+        classes = classes + ": " + daysOfWeek[i] + " " + 
+                  toTime(beginTime) + "-" + toTime(endTime) + " ";
+      }
+    } 
   }
 }
