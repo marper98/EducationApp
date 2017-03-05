@@ -15,7 +15,6 @@ public class StudentApp extends JFrame implements ActionListener{
   private JTextField classPlanTwo;
   private JTextField classPlanThree;
   private JTextField classPlanFour;
-  private JTextField classPlanFive;
   private JTextArea VACHelper;
   private JButton planButton;
   private JButton newSchedule;
@@ -27,8 +26,8 @@ public class StudentApp extends JFrame implements ActionListener{
 
   public StudentApp(String fname){
     myClasses = new ClassCatalog(fname);
-    beginningTime = new SpinnerNumberModel(8, 8, 22, 1);
-    endingTime = new SpinnerNumberModel(22, 9, 22, 1);
+    beginningTime = new SpinnerNumberModel(8, 8, 20, 1);
+    endingTime = new SpinnerNumberModel(22, 10, 22, 1);
     JPanel planTimeFrame = new JPanel(new BorderLayout());
     planTimeFrame.add(new JLabel("What time do you want to start and end"+
                                  " your day? "), "West");
@@ -50,7 +49,6 @@ public class StudentApp extends JFrame implements ActionListener{
     classPlanTwo = new JTextField(10);
     classPlanThree = new JTextField(10);
     classPlanFour = new JTextField(10);
-    classPlanFive = new JTextField(10);
     flipTextEdit(false);
     planButton = new JButton("Plan Courses");
     newSchedule = new JButton("Plan New Courses");
@@ -63,7 +61,6 @@ public class StudentApp extends JFrame implements ActionListener{
     classEnrollPane.add(classPlanTwo);  
     classEnrollPane.add(classPlanThree);  
     classEnrollPane.add(classPlanFour);  
-    classEnrollPane.add(classPlanFive);  
     JPanel classEnrollButtons = new JPanel(new GridLayout(1, 3));
     classEnrollButtons.add(newSchedule);
     classEnrollButtons.add(planButton);
@@ -104,7 +101,6 @@ public class StudentApp extends JFrame implements ActionListener{
         classChoices[1] = classPlanTwo.getText().trim().replaceAll("\\s+","");
         classChoices[2] = classPlanThree.getText().trim().replaceAll("\\s+","");
         classChoices[3] = classPlanFour.getText().trim().replaceAll("\\s+","");   
-        classChoices[4] = classPlanFive.getText().trim().replaceAll("\\s+","");
         boolean foundClasses = true;
         for(int i=0; i<classChoices.length; i++){
 
@@ -146,12 +142,17 @@ public class StudentApp extends JFrame implements ActionListener{
       mySchedule.resetSchedule();
     }
   }
+  /**
+   * Changes the Editable state of the four JTextFields
+   *
+   * @param flip represents the boolean to be passed to the
+   *        setEditable() method for the four JTextFields.
+   */ 
   private void flipTextEdit(boolean flip){
     classPlanOne.setEditable(flip);
     classPlanTwo.setEditable(flip); 
     classPlanThree.setEditable(flip);
     classPlanFour.setEditable(flip);
-    classPlanFive.setEditable(flip);
   }
   private void finalSchedule(boolean done, ArrayList<Class> arr){
     if(done){
@@ -167,6 +168,15 @@ public class StudentApp extends JFrame implements ActionListener{
     }
           
   }
+  /**
+   * Creates a new Schedule passing in the desired starting and ending time for
+   * the student's school day.
+   * 
+   * @param start Represents the starting time of the student's schoolday
+   * @param end Represents the ending time of the student's schoolday
+   * @return Returns true if start is lesser than end and a new Schedule was
+   *         created. Returns false if the inputs were not valid.
+   */
   private boolean validTime(int start, int end){
     if(start < end){
       mySchedule = new Schedule(start, end);
