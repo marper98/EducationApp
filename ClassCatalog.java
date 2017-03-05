@@ -134,7 +134,7 @@ public class ClassCatalog{
     }
 
     public LinkedList<Class> get(String code) {
-      return hashtable[hash(code, hashtable.length, 0)];
+      return hashtable[hash(code, hashtable.length, 0, hashtable)];
     }
 
     public boolean insert(Class current){
@@ -143,9 +143,11 @@ public class ClassCatalog{
       }
       if(load > 2.0/3){
         rehash();
-        System.out.println("We Did it!");
       }
-      int newInd = hash(current.getCode(), hashtable.length, 0);
+      
+      System.out.println("We Did it!");
+      int newInd = hash(current.getCode(), hashtable.length, 0,
+                        hashtable);
       if(hashtable[newInd].contains(current)){
         return false;
       }
@@ -179,21 +181,21 @@ public class ClassCatalog{
       for(int k=0; k<hashtable.length; k++){
         if (hashtable[k].size() > 0) {
           newInd = hash(hashtable[k].get(0).getCode(), newHashTable.length
-                      , 0);
+                      , 0, newHashTable);
           newHashTable[newInd].addAll(hashtable[k]);
         }
       }
       hashtable = newHashTable;
     }
 
-    private int hash(String value, int tablesize, int collisions){
+    private int hash(String value, int tablesize, int collisions,
+                     LinkedList<Class>[] hashtable){
       int hashValue = 0;
       hashValue = ((value.hashCode() % tablesize) + tablesize + collisions
                   ) % tablesize;
-
-      if(!hashtable[hashValue].get(0).getCode().equals(value)
-         && hashtable[hashValue].size() > 0 ){
-        return hash(value, tablesize, collisions + 1);
+      if(hashtable[hashValue].size() > 0 &&
+         !hashtable[hashValue].get(0).getCode().equals(value)){
+        return hash(value, tablesize, collisions + 1, hashtable);
       }
       return hashValue;
     }
