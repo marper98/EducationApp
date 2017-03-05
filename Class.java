@@ -41,13 +41,9 @@ public class Class{
     return classCode;
   }
 
-  public boolean[] getDays(){
-    return days;
-  }
-
   public String toTime(double time) {
       int hour = (int) time;
-      int minute = (int) ((time - hour) * 60) 
+      int minute = (int) ((time - hour) * 60);
       return "" + hour + ":" + minute;
   }
 
@@ -60,5 +56,6 @@ public class Class{
                   toTime(beginTime) + "-" + toTime(endTime) + " ";
       }
     } 
+    return classes;
   }
 }
