@@ -12,15 +12,10 @@ public class ClassCatalog{
   public ClassCatalog(String fname) {
     catalog = new HashTable(50);
     populateCatalog(fname);
-    System.out.println("Succes");
   }
 
   public static void main(String[] args) {
     ClassCatalog c = new ClassCatalog(args[0]);
-    LinkedList<Class>[] courses = c.getList();
-    for (int i = 0; i < courses.length; i++) {
-      for (Class s : courses[i]) System.out.println(s);
-    }   
   }
 
   public void populateCatalog(String fname){
@@ -46,7 +41,8 @@ public class ClassCatalog{
             double beginTime = timeToDouble(timeArr[i++]);
             i++;
             double endTime = timeToDouble(timeArr[i++]);
-
+            code = code.replaceAll("\\P{Print}", "");
+            code = code.replaceAll("\\p{C}", "");
             Class course = new Class(code, beginTime, endTime, days);
             catalog.insert(course);
           }
@@ -58,6 +54,9 @@ public class ClassCatalog{
 
   public LinkedList<Class> getClasses(String code) {
     return catalog.get(code);
+  }
+  public boolean findClass(String code){
+    return catalog.contains(code.toLowerCase());
   }
 
   private boolean[] whichDays(String days) {
@@ -104,7 +103,7 @@ public class ClassCatalog{
       }
       //Returns the time as a decimal otherwise
       else {
-        return hour + minute;
+        return hour + 0.5;
       }
     }
     catch (IndexOutOfBoundsException e) {
@@ -129,7 +128,13 @@ public class ClassCatalog{
     public LinkedList<Class> get(String code) {
       return hashtable[hash(code, hashtable.length, 0, hashtable)];
     }
-
+    public boolean contains(String code){
+      int findInd = hash(code, hashtable.length, 0, hashtable);
+      if(hashtable[findInd].isEmpty()){
+        return false;
+      }
+      return true;
+    }
     public boolean insert(Class current){
       if(current == null){
         throw new NullPointerException();
@@ -158,7 +163,7 @@ public class ClassCatalog{
       }
       return numOfClasses;
     }
-
+    
     @SuppressWarnings("unchecked")
     private void rehash(){
       LinkedList<Class>[] newHashTable = new 

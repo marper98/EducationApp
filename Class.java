@@ -54,7 +54,7 @@ public class Class{
     String classes = classCode;
     for (int i = 0; i < days.length; i++) {
       if (days[i]) {
-        classes = classes + ": " + daysOfWeek[i] + " " + 
+        classes = classes + " " + daysOfWeek[i] + ": " + 
                   toTime(beginTime) + "-" + toTime(endTime) + " ";
       }
     } 

@@ -44,7 +44,21 @@ public class Schedule{
         } 
       }
     }
+    successfullyPlan(planned, startOfClass, endOfClass);
     this.planned.add(planned);
     return success;
+  }
+  private void successfullyPlan(Class planned, int startOfClass, int endOfClass){
+    for(int i=0; i<timeUsed.length; i++){
+      if(planned.getDays()[i]){
+        for(int k=startOfClass; k<endOfClass; k++){
+          timeUsed[i][k] = true;
+        }
+      }
+    }
+  }
+  public void resetSchedule(){
+    timeUsed = new boolean[5][(endday-beginday)*2];
+    planned = new ArrayList();
   }
 }
