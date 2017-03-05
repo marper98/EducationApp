@@ -14,11 +14,11 @@ public class Class{
    * @param end   Represents the ending time of the class.
    * @param days  Represents whether the class is three days or two
    */
-  public Class(String code, double begin, double end){
+  public Class(String code, double begin, double end, boolean[] days){
     classCode = code;
     beginTime = begin;
     endTime = end;
-    days = new boolean[5];
+    this.days = days;
   }
 
   public void setDay(int day){

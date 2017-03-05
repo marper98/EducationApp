@@ -6,18 +6,91 @@ import java.util.ListIterator;
 import java.util.Scanner;
 
 public class ClassCatalog{
+  private HashTable catalog;
 
-  public static void getCourses(String fname){
+  public ClassCatalog(String fname) {
+    catalog = new HashTable(50);
+    getCourses(fname);
+  }
+
+  public void getCourses(String fname){
     File file = new File(fname);
-    try{
+    try {
       Scanner scanner = new Scanner(file);
       while(scanner.hasNextLine()){
-        String nextLine = scanner.nextLine().toLowerCase()
+        String code = scanner.nextLine().toLowerCase()
                           .replaceAll("\\s+","");
         String timeFrames = scanner.nextLine();
+
+        Scanner wordscan = new Scanner(timeFrames);
+        
+        //Converts the days of week into boolean array
+        boolean[] days = whichDays(wordscan.next());
+        //Parses the beginning time
+        double beginTime = timeToDouble(wordScan.next());
+        //Skips the dash
+        wordScan.next();
+        //Parses the end time
+        double endTime = timeToDouble(wordScan.next());
+      
+        //Inserts the class into the hash table
+        Class course = new Class(code, beginTime, endTime, days);
+        hashTable.insert(course);
       }
-    }catch(FileNotFoundException e){}
+    } 
+    catch(FileNotFoundException e){}
   }
+
+  /**
+   * Returns the boolean array for which days of the week this class is on
+   * @param days The string stating the days this class is meeting
+   * @return The boolean array for days of the week
+   */
+  private boolean[] whichDays(String days) {
+    boolean[] week = new boolean[5];
+    char[] daysOfWeek = {'M', 'T', 'W', 'R', 'F'};
+
+    //Checks if OM is in array and remove
+    for (int i = 0; i < days.length; i++) {
+      if (days.charAt(i) == 'O') {
+        days = days.subString(days.indexOf(",") + 1, days.length());
+      }
+    }
+
+    //Turns days into a char array
+    char[] daysLetters = days.toCharArray();
+
+    for (int i = 0; i < daysLetters.length; i++) {
+      for (int j = 0; j < daysOfWeek.length; j++) {
+        if (daysLetters[i] == daysOfWeek[j]) {
+          week[j] = true;
+        }
+      }
+    } 
+    return week;
+  }
+
+  private double timeToDouble(String time) {
+    try {
+      int colon = time.indexOf(":");
+      String hourStr = time.subString(0, colon);
+      String minuteStr = time.subString(colon + 1, time.length());
+
+      double hour = Double.parseDouble(hourStr);
+      double minute = Double.parseDouble(minuteStr) / 60;
+
+      //Rounds the hour up if minute is larger than 30 ex. 11:55
+      if (minute > 0.5) {
+        return hour+1;
+      }
+      //Returns the time as a decimal otherwise
+      else {
+        return hour + minute;
+      }
+    }
+    catch (IndexOutOfBoundsException e) {}
+  }
+
   protected class HashTable{
     private LinkedList<Class>[] hashtable;
     private int nelems;
