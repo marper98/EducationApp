@@ -24,18 +24,20 @@ public class ClassCatalog{
 
         Scanner wordscan = new Scanner(timeFrames);
         
-        //Converts the days of week into boolean array
-        boolean[] days = whichDays(wordscan.next());
-        //Parses the beginning time
-        double beginTime = timeToDouble(wordScan.next());
-        //Skips the dash
-        wordScan.next();
-        //Parses the end time
-        double endTime = timeToDouble(wordScan.next());
+        while (wordscan.hasNext()) {
+          //Converts the days of week into boolean array
+          boolean[] days = whichDays(wordscan.next());
+          //Parses the beginning time
+          double beginTime = timeToDouble(wordScan.next());
+          //Skips the dash
+          wordScan.next();
+          //Parses the end time
+          double endTime = timeToDouble(wordScan.next());
       
-        //Inserts the class into the hash table
-        Class course = new Class(code, beginTime, endTime, days);
-        hashTable.insert(course);
+          //Inserts the class into the hash table
+          Class course = new Class(code, beginTime, endTime, days);
+          hashTable.insert(course);
+        }
       }
     } 
     catch(FileNotFoundException e){}
