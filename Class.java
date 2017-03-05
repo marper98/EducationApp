@@ -44,6 +44,8 @@ public class Class{
   public String toTime(double time) {
       int hour = (int) time;
       int minute = (int) ((time - hour) * 60);
+      if (minute == 0)
+        return "" + hour + ":" + minute + "0";
       return "" + hour + ":" + minute;
   }
 

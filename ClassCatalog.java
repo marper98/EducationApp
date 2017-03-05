@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Scanner;
+import java.util.*;
 
 public class ClassCatalog{
   private HashTable catalog;
@@ -16,6 +17,10 @@ public class ClassCatalog{
 
   public static void main(String[] args) {
     ClassCatalog c = new ClassCatalog(args[0]);
+    LinkedList<Class>[] courses = c.getList();
+    for (int i = 0; i < courses.length; i++) {
+      for (Class s : courses[i]) System.out.println(s);
+    }   
   }
 
   public void populateCatalog(String fname){
@@ -26,42 +31,26 @@ public class ClassCatalog{
       while(scanner.hasNextLine()){
         String code = scanner.nextLine().toLowerCase()
                           .replaceAll("\\s+","");
+
         String timeFrames = scanner.nextLine().trim();
 
         timeFrames = timeFrames.replaceAll("\\P{Print}", " ");
+        timeFrames = timeFrames.replaceAll("\\p{C}", " ");
+        timeFrames = timeFrames.replaceAll("\\s+", " ");
+
         String[] timeArr = timeFrames.split(" ");
 
-        for (int i = 0; i < timeArr.length;) {
-          boolean[] days = whichDays(timeArr[i++]);
-          double beginTime = timeToDouble(timeArr[i++]);
-          i++;
-          double endTime = timeToDouble(timeArr[i++]);
+        if (timeArr.length % 4 == 0) {
+          for (int i = 0; i < timeArr.length;) {
+            boolean[] days = whichDays(timeArr[i++]);
+            double beginTime = timeToDouble(timeArr[i++]);
+            i++;
+            double endTime = timeToDouble(timeArr[i++]);
 
-
-          Class course = new Class(code, beginTime, endTime, days);
-          catalog.insert(course);
+            Class course = new Class(code, beginTime, endTime, days);
+            catalog.insert(course);
+          }
         }
-        Scanner wordscan = new Scanner(timeFrames);
-/*
-        while (wordscan.hasNext()) {
-          System.out.println(wordscan.next());
-          //Converts the days of week into boolean array
-          boolean[] days = whichDays(wordscan.next());
-          System.out.println(wordscan.next());
-          //Parses the beginning time
-          double beginTime = timeToDouble(wordscan.next());
-          //Skips the dash
-          wordscan.next();
-          //Parses the end time
-          double endTime = timeToDouble(wordscan.next());
-      
-          //Inserts the class into the hash table
-          Class course = new Class(code, beginTime, endTime, days);
-          catalog.insert(course);
-        }*/
-
-        
-
       }
     } 
     catch(FileNotFoundException e){}
@@ -94,6 +83,10 @@ public class ClassCatalog{
     } 
 
     return week;
+  }
+
+  public LinkedList<Class>[] getList() {
+    return catalog.getList();
   }
 
   private double timeToDouble(String time) {
@@ -145,7 +138,6 @@ public class ClassCatalog{
         rehash();
       }
       
-      System.out.println("We Did it!");
       int newInd = hash(current.getCode(), hashtable.length, 0,
                         hashtable);
       if(hashtable[newInd].contains(current)){
@@ -186,6 +178,10 @@ public class ClassCatalog{
         }
       }
       hashtable = newHashTable;
+    }
+
+    public LinkedList<Class>[] getList() {
+      return hashtable;
     }
 
     private int hash(String value, int tablesize, int collisions,
