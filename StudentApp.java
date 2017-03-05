@@ -139,7 +139,13 @@ public class StudentApp extends JFrame implements ActionListener{
     if(e.getSource() == newSchedule){
       flipTextEdit(true);
       planButton.setEnabled(true);
+      beginSpin.setEnabled(true);
+      endSpin.setEnabled(true);
       mySchedule.resetSchedule();
+    }
+    if(e.getSource() == newClassTime){
+      flipTextEdit(false);
+      setTimeButton.setEnabled(true);
     }
   }
   /**
